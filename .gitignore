@@ -1,0 +1,42 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.pub-cache/
+build/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/FlutterPluginRegistrant/
+ios/.generated/
+ios/Pods/
+ios/Runner.xcworkspace/
+android/.gradle/
+android/app/build/
+android/app/src/main/res/mipmap-*/*.xml
+android/app/src/main/res/mipmap-*/*.png
+android/app/src/main/res/mipmap-*/*.jpg
+android/app/src/main/res/mipmap-*/*.jpeg
+android/local.properties
+*.iml
+
+# IntelliJ related
+.idea/
+*.ipr
+*.iws
+*.class
+*.log
+*.out
+
+# VS Code related
+.vscode/
+
+# Miscellaneous
+*.lock
+*.log
+*.tmp
+*.DS_Store
+*.swp
+*.swo
+*.tmp
+*.user
+*.sublime-workspace
+*.sublime-project
