@@ -8,7 +8,7 @@ class DepartmentRepo {
 
   Future<Response> getDepartmentRepo() async {
     try {
-      Dio dio = DioApi().sendRequest;
+      Dio dio = await DioApi().sendRequest;
       final response = await dio.get(ApiStrings.department);
       return response;
     } catch (e) {

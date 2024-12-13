@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:rpc_waiting_list/cubit/logout/logout_repo.dart';
 
 import '../../helper/dio_error_helper.dart';
@@ -19,11 +19,7 @@ class LogoutCubit extends Cubit<LogoutState> {
       final response = await LogoutRepo().logoutReq();
 
       if (response.statusCode == 200) {
-        final accessToken = response.data['access_token'];
-
-        localToken.writeAccessToken(accessToken);
-
-        print("accesstoken :$accessToken");
+        localToken.writeAccessToken("");
 
         emit(LogoutLoaded());
       } else {

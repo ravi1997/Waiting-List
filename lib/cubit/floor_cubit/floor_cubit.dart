@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:rpc_waiting_list/cubit/floor_cubit/fllor_repo.dart';
+import 'package:rpc_waiting_list/cubit/floor_cubit/floor_repo.dart';
 
 import '../../helper/dio_error_helper.dart';
 import '../../modal/floor_modal.dart';
@@ -11,7 +11,7 @@ part 'floor_state.dart';
 class FloorCubit extends Cubit<FloorState> {
   FloorCubit() : super(FloorInitial());
 
-  void getDesignation({required String id}) async {
+  void getFloor({required String id}) async {
     emit(FloorLoading());
     try {
       final response = await FloorRepo().getFloor(id: id);

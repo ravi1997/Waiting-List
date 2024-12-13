@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:rpc_waiting_list/cubit/registration_account/registraion_account_repo.dart';
+import 'package:rpc_waiting_list/cubit/registration_account/registration_account_repo.dart';
 
 import '../../helper/dio_error_helper.dart';
 

@@ -10,7 +10,7 @@ class RegistrationAccountRepo {
     required String userId,
   }) async {
     try {
-      Dio dio = DioApi().sendRequest;
+      Dio dio = await DioApi().sendRequest;
       final response = await dio.post(ApiStrings.createAccount, data: {
         "username": username,
         "password": password,

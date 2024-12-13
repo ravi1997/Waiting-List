@@ -1,5 +1,5 @@
-import 'package:rpc_waiting_list/modal/role_modal.dart';
 import 'package:rpc_waiting_list/modal/registration_user_modal.dart';
+import 'package:rpc_waiting_list/modal/role_modal.dart';
 
 class AccountModal {
   // int? id;
@@ -79,7 +79,7 @@ class AccountModal {
         'create_date': createDate?.toIso8601String(),
         'status': status,
         'accountBelongsToUser': accountBelongsToUser?.toJson(),
-        'accountHasRoles': accountHasRoles?.map((x) => x.toJson()).toList(),
+        'accountHasRoles': accountHasRoles.map((x) => x.toJson()).toList(),
         // 'blocked': blocked,
         // 'wrongAttempt': wrongAttempt,
         // 'deleted': deleted,

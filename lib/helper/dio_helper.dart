@@ -31,11 +31,15 @@ class DioApi {
         compact: true,
         maxWidth: 120));
 
-  Dio get sendRequest {
+  Future<Dio> get sendRequest async {
     if (isHeader) {
+      String token = '';
+
+      token = await localToken.getAccessToken();
+
       header = {
         // 'Content-Type': 'application/json',
-        'Authorization': "Bearer ${localToken.getAccessToken()}",
+        'Authorization': "Bearer $token",
       };
     } else {
       header = null;

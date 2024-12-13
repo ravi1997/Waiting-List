@@ -18,8 +18,8 @@ class RegistrationUserRepo {
     required int unitId,
   }) async {
     try {
-      Dio dio = DioApi().sendRequest;
-      final response = await dio.post("${ApiStrings.createUser}", data: {
+      Dio dio = await DioApi().sendRequest;
+      final response = await dio.post(ApiStrings.createUser, data: {
         "designation_id": designationId,
         "email": email,
         "employee_id": employeeId,

@@ -1,20 +1,21 @@
-import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalToken {
-  static GetStorage storage = GetStorage();
-
   String accessToken = 'access_token';
 
-  String getAccessToken() {
-    return storage.read(accessToken) ?? '';
+  Future<String> getAccessToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(accessToken) ?? '';
   }
 
-  Future<void> writeAccessToken(String token) {
-    return storage.write(accessToken, token);
+  Future<void> writeAccessToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(accessToken, token);
   }
 
-  void clearAccessToken() {
-    storage.remove(accessToken);
+  Future<void> clearAccessToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(accessToken);
   }
 
 //   final accessToken = getAccessToken();

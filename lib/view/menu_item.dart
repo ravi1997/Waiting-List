@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Menu extends StatefulWidget {
+  const Menu({super.key});
+
   @override
   State<Menu> createState() => _MenuState();
 }
@@ -37,24 +38,25 @@ class _MenuState extends State<Menu> {
         child: Column(
           children: [
             Text(
-              '$title',
+              title,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: isActive ? Colors.deepPurple : Colors.grey,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 6,
             ),
             isActive
                 ? Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                     decoration: BoxDecoration(
                       color: Colors.deepPurple,
                       borderRadius: BorderRadius.circular(30),
                     ),
                   )
-                : SizedBox()
+                : const SizedBox()
           ],
         ),
       ),

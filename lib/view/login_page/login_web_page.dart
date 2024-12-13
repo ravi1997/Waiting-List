@@ -1,37 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rpc_waiting_list/cubit/building_cubit/building_cubit.dart';
-import 'package:rpc_waiting_list/cubit/cadre_cubit/cadre_cubit.dart';
-import 'package:rpc_waiting_list/cubit/department_cubit/department_cubit.dart';
-import 'package:rpc_waiting_list/modal/building_modal.dart';
-import 'package:rpc_waiting_list/view/login_page/login_form_widget.dart';
 import 'package:rpc_waiting_list/view/login_page/register_form_widget.dart';
 import 'package:rpc_waiting_list/view/menu_item.dart';
 
+import '../../components/typing_animation.dart';
+import 'login_form_widget.dart';
+
 class LoginPageWeb extends StatefulWidget {
+  const LoginPageWeb({super.key});
+
   @override
   State<LoginPageWeb> createState() => _LoginPageWebState();
 }
 
 class _LoginPageWebState extends State<LoginPageWeb> {
   @override
-  void initState() {
-    BlocProvider.of<BuildingCubit>(context).getBuilding();
-    BlocProvider.of<CadreCubit>(context).getCadre();
-    BlocProvider.of<DepartmentCubit>(context).getDepartment();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFf5f5f5),
+      backgroundColor: const Color(0xFFf5f5f5),
       body: ListView(
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width / 8),
-        children: [
+        children: const [
           Menu(),
           Body(),
         ],
@@ -41,6 +31,8 @@ class _LoginPageWebState extends State<LoginPageWeb> {
 }
 
 class Body extends StatefulWidget {
+  const Body({super.key});
+
   @override
   State<Body> createState() => _BodyState();
 }
@@ -52,75 +44,96 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 100.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 5,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Sign In to \n RPC Waiting List Application',
-                        style: TextStyle(
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Image.asset(
-                        'images/illustration-2.png',
-                        width: 80.w,
-                      ),
-                    ],
-                  ),
-                ),
-                Image.asset(
-                  'images/illustration-1.png',
-                  width: 70.w,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 50.w,
-          ),
-          Expanded(
-            flex: 3,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Check if the screen width is less than a threshold value (e.g., 600px)
+          bool isMobile = constraints.maxWidth < 600;
+          return isMobile
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // menuItem(title: 'Sign In', isActive: true),
-                    _loginButton(
-                        onTap: () => setState(() {
-                              isLoginPressed = true;
-                            })),
-                    SizedBox(width: 2.w),
-                    _registerButton(onTap: () {
-                      setState(() {
-                        isLoginPressed = false;
-                      });
-                    }),
+                    Center(
+                      child: SizedBox(
+                        height: 200.h,
+                        child: const TypingAnimation(
+                            text:
+                                "Hello, There!\nLogin to the R.P.Centre Applications."),
+                      ),
+                    ),
+                    SizedBox(height: 30.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _loginButton(onTap: () {
+                          setState(() {
+                            isLoginPressed = true;
+                          });
+                        }),
+                        SizedBox(width: 10.w),
+                        _registerButton(onTap: () {
+                          setState(() {
+                            isLoginPressed = false;
+                          });
+                        }),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    Container(
+                      child: isLoginPressed
+                          ? const LoginFormWidget()
+                          : const RegisterFormWidget(),
+                    ),
                   ],
-                ),
-                SizedBox(height: 30),
-                Container(
-                  // width: 400,
-                  child:
-                      isLoginPressed ? LoginFormWidget() : RegisterFormWidget(),
-                ),
-              ],
-            ),
-          )
-        ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      flex: 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TypingAnimation(
+                              text:
+                                  "Hello, There!\nLogin to the R.P.Centre Applications."),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 50.w),
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _loginButton(onTap: () {
+                                setState(() {
+                                  isLoginPressed = true;
+                                });
+                              }),
+                              SizedBox(width: 2.w),
+                              _registerButton(onTap: () {
+                                setState(() {
+                                  isLoginPressed = false;
+                                });
+                              }),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Container(
+                            child: isLoginPressed
+                                ? const LoginFormWidget()
+                                : const RegisterFormWidget(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+        },
       ),
     );
   }
@@ -129,7 +142,7 @@ class _BodyState extends State<Body> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
@@ -141,7 +154,7 @@ class _BodyState extends State<Body> {
             ),
           ],
         ),
-        child: Text(
+        child: const Text(
           'Login',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -156,7 +169,7 @@ class _BodyState extends State<Body> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),

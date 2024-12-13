@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,19 +52,19 @@ class _MyTextFieldState extends State<MyTextField> {
         labelText: widget.label,
         filled: true,
         fillColor: Colors.blueGrey[50],
-        labelStyle: TextStyle(fontSize: 3.sp),
-        contentPadding: EdgeInsets.only(left: 30),
+        labelStyle: const TextStyle(fontSize: 10),
+        contentPadding: const EdgeInsets.only(left: 30),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blueGrey.shade50),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blueGrey.shade50),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
         ),
         errorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blueGrey.shade50),
-            borderRadius: BorderRadius.circular(15)),
+            borderRadius: BorderRadius.circular(15.r)),
       ),
       validator: widget.validatorFunc,
     );

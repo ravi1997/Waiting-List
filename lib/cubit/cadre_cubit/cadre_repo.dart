@@ -8,7 +8,7 @@ class CadreRepo {
 
   Future<Response> getCadreRepo() async {
     try {
-      Dio dio = DioApi().sendRequest;
+      Dio dio = await DioApi().sendRequest;
       final response = await dio.get(ApiStrings.cadre);
       return response;
     } catch (e) {

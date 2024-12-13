@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,12 +34,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               return null;
             },
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           MyTextField(
             controller: _passwordController,
             label: 'Password',
             obscured: true,
-            suffixIcon: Icon(Icons.visibility_off_outlined, color: Colors.grey),
+            suffixIcon:
+                const Icon(Icons.visibility_off_outlined, color: Colors.grey),
             validatorFunc: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your password';
@@ -48,7 +48,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               return null;
             },
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -64,16 +64,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             child: BlocListener<LoginCubit, LoginState>(
               listener: (context, state) {
                 if (state is LoginLoaded) {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => Home()));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => const Home()));
                 }
               },
               child: ElevatedButton(
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  child: Center(child: Text("Sign In")),
-                ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final id = _idController.text.trim();
@@ -86,6 +81,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
+                ),
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: const Center(child: Text("Sign In")),
                 ),
               ),
             ),

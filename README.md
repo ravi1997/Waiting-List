@@ -1,4 +1,4 @@
-# rpc_waiting_list
+# waiting_list
 
 A new Flutter project.
 

@@ -8,7 +8,7 @@ final class CadreInitial extends CadreState {}
 final class CadreLoading extends CadreState {}
 
 final class CadreLoaded extends CadreState {
-  List<CadreModal> cadreModal;
+  final List<CadreModal> cadreModal;
   CadreLoaded({required this.cadreModal});
 }
 

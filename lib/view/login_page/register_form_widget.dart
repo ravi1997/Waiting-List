@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rpc_waiting_list/cubit/building_cubit/building_cubit.dart';
@@ -15,7 +14,7 @@ import '../../cubit/designation_cubit/designation_cubit.dart';
 import '../../cubit/registration_account/registration_account_cubit.dart';
 import '../../cubit/registration_user/registration_cubit.dart';
 import '../../cubit/unit_cubit/unit_cubit.dart';
-import '../../helper/Utils.dart';
+import '../../helper/utils.dart';
 import '../../modal/cadre_modal.dart';
 import '../../modal/department_modal.dart';
 import '../../modal/designation_modal.dart';
@@ -46,7 +45,15 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   int? selectedBuilding;
   int? selectedRoom;
   int? selectedFloor;
-  List<String> _floors = ['1', '2', '3'];
+  final List<String> _floors = ['1', '2', '3'];
+
+  @override
+  void initState() {
+    BlocProvider.of<BuildingCubit>(context).getBuilding();
+    BlocProvider.of<CadreCubit>(context).getCadre();
+    BlocProvider.of<DepartmentCubit>(context).getDepartment();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +75,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   },
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: MyTextField(
                   controller: _middleNameController,
@@ -81,7 +88,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   },
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: MyTextField(
                   controller: _lastNameController,
@@ -96,7 +103,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           MyTextField(
             controller: _employeeIdController,
             label: 'Employee Id',
@@ -107,7 +114,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               return null;
             },
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             children: [
               Expanded(
@@ -125,7 +132,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   },
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: MyTextField(
                   controller: _mobileNumberController,
@@ -144,7 +151,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             children: [
               Expanded(
@@ -157,7 +164,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                           labelText: 'Select Building',
                           filled: true,
                           fillColor: Colors.blueGrey[50],
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                         value: null,
                         items: state.buildingModal
@@ -168,8 +175,9 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                           );
                         }).toList(),
                         onChanged: (newValue) {
-                          BlocProvider.of<RoomCubit>(context)
-                              .getDesignation(id: newValue.toString());
+                          BlocProvider.of<FloorCubit>(context)
+                              .getFloor(id: newValue.toString());
+
                           setState(() {
                             selectedBuilding = newValue;
                           });
@@ -184,45 +192,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   },
                 ),
               ),
-              SizedBox(width: 20),
-              Expanded(
-                child: BlocBuilder<RoomCubit, RoomState>(
-                  builder: (context, state) {
-                    if (state is RoomLoaded) {
-                      return DropdownButtonFormField<int>(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          labelText: 'Select Room',
-                          filled: true,
-                          fillColor: Colors.blueGrey[50],
-                          border: OutlineInputBorder(),
-                        ),
-                        value: null,
-                        items: state.roomModal
-                            .map<DropdownMenuItem<int>>((RoomModal modal) {
-                          return DropdownMenuItem<int>(
-                            value: modal.id,
-                            child: Text(modal.number.toString()),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          BlocProvider.of<FloorCubit>(context)
-                              .getDesignation(id: newValue.toString());
-                          setState(() {
-                            selectedBuilding = newValue;
-                          });
-                        },
-                        isExpanded: true,
-                        isDense: true,
-                        validator: (value) =>
-                            value == null ? 'Please select a Room' : null,
-                      );
-                    }
-                    return dummyDropDown('Select Room');
-                  },
-                ),
-              ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Expanded(
                 child: BlocBuilder<FloorCubit, FloorState>(
                   builder: (context, state) {
@@ -233,7 +203,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                           labelText: 'Select Floor',
                           filled: true,
                           fillColor: Colors.blueGrey[50],
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                         value: null,
                         items: state.floorModal
@@ -244,10 +214,10 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                           );
                         }).toList(),
                         onChanged: (newValue) {
-                          // BlocProvider.of<RoomCubit>(context)
-                          //     .getDesignation(id: newValue.toString());
+                          BlocProvider.of<RoomCubit>(context)
+                              .getRooms(id: newValue.toString());
                           setState(() {
-                            selectedBuilding = newValue;
+                            selectedFloor = newValue;
                           });
                         },
                         isExpanded: true,
@@ -260,9 +230,45 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   },
                 ),
               ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: BlocBuilder<RoomCubit, RoomState>(
+                  builder: (context, state) {
+                    if (state is RoomLoaded) {
+                      return DropdownButtonFormField<int>(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          labelText: 'Select Room',
+                          filled: true,
+                          fillColor: Colors.blueGrey[50],
+                          border: const OutlineInputBorder(),
+                        ),
+                        value: null,
+                        items: state.roomModal
+                            .map<DropdownMenuItem<int>>((RoomModal modal) {
+                          return DropdownMenuItem<int>(
+                            value: modal.id,
+                            child: Text(modal.number.toString()),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedRoom = newValue;
+                          });
+                        },
+                        isExpanded: true,
+                        isDense: true,
+                        validator: (value) =>
+                            value == null ? 'Please select a Room' : null,
+                      );
+                    }
+                    return dummyDropDown('Select Room');
+                  },
+                ),
+              ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             children: [
               Expanded(child: BlocBuilder<CadreCubit, CadreState>(
@@ -274,7 +280,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                         labelText: 'Select Cadre',
                         filled: true,
                         fillColor: Colors.blueGrey[50],
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                       ),
                       value: null,
                       items: state.cadreModal
@@ -300,7 +306,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   return dummyDropDown('Select Cadre');
                 },
               )),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Expanded(child: BlocBuilder<DesignationCubit, DesignationState>(
                 builder: (context, state) {
                   if (state is DesignationLoaded) {
@@ -310,7 +316,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                         labelText: 'Select Designation',
                         filled: true,
                         fillColor: Colors.blueGrey[50],
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                       ),
                       value: null,
                       items: state.designationModal
@@ -334,7 +340,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               )),
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             children: [
               Expanded(
@@ -345,12 +351,12 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           labelText: 'Select Department',
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                           ),
                           filled: true,
                           fillColor: Colors.blueGrey[50],
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                         value: null,
                         items: state.departmentModal
@@ -360,7 +366,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                             child: Text(
                               department.name,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -384,7 +390,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   },
                 ),
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Expanded(
                 child: BlocBuilder<UnitCubit, UnitState>(
                   builder: (context, state) {
@@ -395,7 +401,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                           labelText: 'Select Unit',
                           filled: true,
                           fillColor: Colors.blueGrey[50],
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                         value: null,
                         items: state.unitModal.map((UnitModal unit) {
@@ -419,7 +425,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               ),
             ],
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -435,20 +441,16 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
             child: BlocListener<RegistrationUserCubit, RegistrationUserState>(
               listener: (context, state) {
                 if (state is RegistrationUserLoading) {
-                  Utils.snackbarToast('Please Wait');
+                  Utils.snackBarToast('Please Wait');
                 }
                 if (state is RegistrationUserLoaded) {
                   _showPasswordDialog(context, state.userModal);
                 }
                 if (state is RegistrationUserError) {
-                  Utils.snackbarToast('Something Went Wrong');
+                  Utils.snackBarToast('Something Went Wrong');
                 }
               },
               child: ElevatedButton(
-                child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    child: Center(child: Text("Sign Up"))),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     BlocProvider.of<RegistrationUserCubit>(context).loginReq(
@@ -461,7 +463,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                         mobile: _mobileNumberController.text.trim(),
                         cadreId: selectedCadre!,
                         departmentId: selectedDepartment!,
-                        officeAddressId: selectedDesignation!,
+                        officeAddressId: selectedFloor!,
                         unitId: selectedUnit!);
                   }
                 },
@@ -470,10 +472,14 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
+                child: Container(
+                    width: double.infinity,
+                    height: 50,
+                    child: const Center(child: Text("Sign Up"))),
               ),
             ),
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -485,7 +491,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
         labelText: labelText,
         filled: true,
         fillColor: Colors.blueGrey[50],
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
       ),
       value: null,
       items: _floors.map((String floor) {
@@ -501,7 +507,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
 
   void _showPasswordDialog(
       BuildContext context, RegistrationUserModal registrationUserModal) {
-    final TextEditingController _passwordController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
     showDialog(
       context: context,
@@ -510,7 +516,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
           title: Text(
               'UserName ${registrationUserModal.user?.email}\nEnter Password'),
           content: TextField(
-            controller: _passwordController,
+            controller: passwordController,
             obscureText: true,
             decoration: const InputDecoration(
               labelText: 'Password',
@@ -521,29 +527,29 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             BlocListener<RegistrationAccountCubit, RegistrationAccountState>(
               listener: (context, state) {
                 if (state is RegistrationAccountLoading) {
-                  Utils.snackbarToast('Please Wait');
+                  Utils.snackBarToast('Please Wait');
                 }
                 if (state is RegistrationAccountLoaded) {
                   Navigator.pop(context);
-                  Utils.snackbarToast('Wait for Account Verification');
+                  Utils.snackBarToast('Wait for Account Verification');
                 }
                 if (state is RegistrationAccountError) {
-                  Utils.snackbarToast('Something Went Wrong');
+                  Utils.snackBarToast('Something Went Wrong');
                 }
               },
               child: ElevatedButton(
                 onPressed: () {
                   BlocProvider.of<RegistrationAccountCubit>(context).loginReq(
                       username: registrationUserModal.user?.email ?? '',
-                      password: _passwordController.text.trim(),
+                      password: passwordController.text.trim(),
                       userId: registrationUserModal.user?.id.toString() ?? '');
                 },
-                child: Text('Register'),
+                child: const Text('Register'),
               ),
             ),
           ],

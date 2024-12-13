@@ -11,7 +11,7 @@ part 'room_state.dart';
 class RoomCubit extends Cubit<RoomState> {
   RoomCubit() : super(RoomInitial());
 
-  void getDesignation({required String id}) async {
+  void getRooms({required String id}) async {
     emit(RoomLoading());
     try {
       final response = await RoomRepo().getRooms(id: id);

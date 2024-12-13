@@ -6,132 +6,151 @@ class RegistrationUserModal {
 
   RegistrationUserModal.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
 }
 
 class User {
-  int? cadreId;
-  int? createdBy;
-  String? createdDate;
-  int? deleted;
-  Null? deletedBy;
-  String? deletedDate;
-  int? departmentId;
-  int? designationId;
-  String? email;
-  Null? email2;
-  Null? email3;
-  String? employeeId;
-  String? firstname;
-  int? id;
-  String? lastname;
-  String? middlename;
-  String? mobile;
-  Null? mobile2;
-  Null? mobile3;
-  int? officeAddressId;
-  int? status;
-  int? unitId;
-  int? updatedBy;
-  String? updatedDate;
-  Null? verifiedBy;
-  String? verifiedDate;
+  final int cadreId;
+  final int createdBy;
+  final DateTime createdDate;
+  final int deleted;
+  final int? deletedBy;
+  final DateTime? deletedDate;
+  final int departmentId;
+  final int designationId;
+  final String email;
+  final String? email2;
+  final String? email3;
+  final String employeeId;
+  final String firstname;
+  final int id;
+  final String lastname;
+  final String? middlename;
+  final String mobile;
+  final String? mobile2;
+  final String? mobile3;
+  final int officeAddressId;
+  final int? parentId;
+  final int parentStatus;
+  final int status;
+  final int unitId;
+  final int updatedBy;
+  final DateTime updatedDate;
+  final int? verifiedBy;
+  final DateTime? verifiedDate;
 
-  User(
-      {this.cadreId,
-      this.createdBy,
-      this.createdDate,
-      this.deleted,
-      this.deletedBy,
-      this.deletedDate,
-      this.departmentId,
-      this.designationId,
-      this.email,
-      this.email2,
-      this.email3,
-      this.employeeId,
-      this.firstname,
-      this.id,
-      this.lastname,
-      this.middlename,
-      this.mobile,
-      this.mobile2,
-      this.mobile3,
-      this.officeAddressId,
-      this.status,
-      this.unitId,
-      this.updatedBy,
-      this.updatedDate,
-      this.verifiedBy,
-      this.verifiedDate});
+  User({
+    required this.cadreId,
+    required this.createdBy,
+    required this.createdDate,
+    required this.deleted,
+    this.deletedBy,
+    this.deletedDate,
+    required this.departmentId,
+    required this.designationId,
+    required this.email,
+    this.email2,
+    this.email3,
+    required this.employeeId,
+    required this.firstname,
+    required this.id,
+    required this.lastname,
+    this.middlename,
+    required this.mobile,
+    this.mobile2,
+    this.mobile3,
+    required this.officeAddressId,
+    this.parentId,
+    required this.parentStatus,
+    required this.status,
+    required this.unitId,
+    required this.updatedBy,
+    required this.updatedDate,
+    this.verifiedBy,
+    this.verifiedDate,
+  });
 
-  User.fromJson(Map<String, dynamic> json) {
-    cadreId = json['cadre_id'];
-    createdBy = json['created_by'];
-    createdDate = json['created_date'];
-    deleted = json['deleted'];
-    deletedBy = json['deleted_by'];
-    deletedDate = json['deleted_date'];
-    departmentId = json['department_id'];
-    designationId = json['designation_id'];
-    email = json['email'];
-    email2 = json['email2'];
-    email3 = json['email3'];
-    employeeId = json['employee_id'];
-    firstname = json['firstname'];
-    id = json['id'];
-    lastname = json['lastname'];
-    middlename = json['middlename'];
-    mobile = json['mobile'];
-    mobile2 = json['mobile2'];
-    mobile3 = json['mobile3'];
-    officeAddressId = json['officeAddress_id'];
-    status = json['status'];
-    unitId = json['unit_id'];
-    updatedBy = json['updated_by'];
-    updatedDate = json['updated_date'];
-    verifiedBy = json['verified_by'];
-    verifiedDate = json['verified_date'];
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      cadreId: json['cadre_id'] as int,
+      createdBy: json['created_by'] as int,
+      createdDate: DateTime.parse(json['created_date'] as String),
+      deleted: json['deleted'] as int,
+      deletedBy: json['deleted_by'] as int?,
+      deletedDate: json['deleted_date'] != null
+          ? DateTime.parse(json['deleted_date'] as String)
+          : null,
+      departmentId: json['department_id'] as int,
+      designationId: json['designation_id'] as int,
+      email: json['email'] as String,
+      email2: json['email2'] as String?,
+      email3: json['email3'] as String?,
+      employeeId: json['employee_id'] as String,
+      firstname: json['firstname'] as String,
+      id: json['id'] as int,
+      lastname: json['lastname'] as String,
+      middlename: json['middlename'] as String?,
+      mobile: json['mobile'] as String,
+      mobile2: json['mobile2'] as String?,
+      mobile3: json['mobile3'] as String?,
+      officeAddressId: json['officeAddress_id'] as int,
+      parentId: json['parent_id'] as int?,
+      parentStatus: json['parent_status'] as int,
+      status: json['status'] as int,
+      unitId: json['unit_id'] as int,
+      updatedBy: json['updated_by'] as int,
+      updatedDate: DateTime.parse(json['updated_date'] as String),
+      verifiedBy: json['verified_by'] as int?,
+      verifiedDate: json['verified_date'] != null
+          ? DateTime.parse(json['verified_date'] as String)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['cadre_id'] = this.cadreId;
-    data['created_by'] = this.createdBy;
-    data['created_date'] = this.createdDate;
-    data['deleted'] = this.deleted;
-    data['deleted_by'] = this.deletedBy;
-    data['deleted_date'] = this.deletedDate;
-    data['department_id'] = this.departmentId;
-    data['designation_id'] = this.designationId;
-    data['email'] = this.email;
-    data['email2'] = this.email2;
-    data['email3'] = this.email3;
-    data['employee_id'] = this.employeeId;
-    data['firstname'] = this.firstname;
-    data['id'] = this.id;
-    data['lastname'] = this.lastname;
-    data['middlename'] = this.middlename;
-    data['mobile'] = this.mobile;
-    data['mobile2'] = this.mobile2;
-    data['mobile3'] = this.mobile3;
-    data['officeAddress_id'] = this.officeAddressId;
-    data['status'] = this.status;
-    data['unit_id'] = this.unitId;
-    data['updated_by'] = this.updatedBy;
-    data['updated_date'] = this.updatedDate;
-    data['verified_by'] = this.verifiedBy;
-    data['verified_date'] = this.verifiedDate;
-    return data;
+    return {
+      'cadre_id': cadreId,
+      'created_by': createdBy,
+      'created_date': createdDate.toIso8601String(),
+      'deleted': deleted,
+      'deleted_by': deletedBy,
+      'deleted_date': deletedDate?.toIso8601String(),
+      'department_id': departmentId,
+      'designation_id': designationId,
+      'email': email,
+      'email2': email2,
+      'email3': email3,
+      'employee_id': employeeId,
+      'firstname': firstname,
+      'id': id,
+      'lastname': lastname,
+      'middlename': middlename,
+      'mobile': mobile,
+      'mobile2': mobile2,
+      'mobile3': mobile3,
+      'officeAddress_id': officeAddressId,
+      'parent_id': parentId,
+      'parent_status': parentStatus,
+      'status': status,
+      'unit_id': unitId,
+      'updated_by': updatedBy,
+      'updated_date': updatedDate.toIso8601String(),
+      'verified_by': verifiedBy,
+      'verified_date': verifiedDate?.toIso8601String(),
+    };
+  }
+
+  static List<User> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => User.fromJson(json)).toList();
   }
 }

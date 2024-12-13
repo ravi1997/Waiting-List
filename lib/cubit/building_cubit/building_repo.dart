@@ -8,7 +8,7 @@ class BuildingRepo {
 
   Future<Response> getBuildingRepo() async {
     try {
-      Dio dio = DioApi().sendRequest;
+      Dio dio = await DioApi().sendRequest;
       final response = await dio.get(ApiStrings.getBuilding);
       return response;
     } catch (e) {
