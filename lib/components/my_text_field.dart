@@ -50,7 +50,7 @@ class _MyTextFieldState extends State<MyTextField> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         counterText: '',
-        labelText: widget.label ?? '',
+        labelText: widget.label,
         filled: true,
         fillColor: Colors.blueGrey[50],
         labelStyle: TextStyle(fontSize: 3.sp),
